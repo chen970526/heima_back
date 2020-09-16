@@ -2,57 +2,96 @@
   <div class="home">
     <el-container>
       <el-aside width="200px">
+        <img class="logo" alt @click="$router.push({path:'/'}).catch(()=>{})" />
         <el-menu
-          default-active="2"
+          default-active="1-1"
           class="el-menu-vertical-demo"
-          @open="handleOpen"
-          @close="handleClose"
           background-color="#545c64"
           text-color="#fff"
           active-text-color="#ffd04b"
+          :unique-opened="true"
+          :router="true"
         >
           <el-submenu index="1">
             <template slot="title">
               <i class="el-icon-location"></i>
-              <span>导航一</span>
+              <span>用户管理</span>
             </template>
-            <el-menu-item-group>
-              <template slot="title">分组一</template>
-              <el-menu-item index="1-1">选项1</el-menu-item>
-              <el-menu-item index="1-2">选项2</el-menu-item>
-            </el-menu-item-group>
-            <el-menu-item-group title="分组2">
-              <el-menu-item index="1-3">选项3</el-menu-item>
-            </el-menu-item-group>
-            <el-submenu index="1-4">
-              <template slot="title">选项4</template>
-              <el-menu-item index="1-4-1">选项1</el-menu-item>
-            </el-submenu>
+            <el-menu-item index="welcome">
+              <template slot="title">
+                <i class="el-icon-location"></i>
+                <span>用户列表</span>
+              </template>
+            </el-menu-item>
           </el-submenu>
-          <el-menu-item index="2">
-            <i class="el-icon-menu"></i>
-            <span slot="title">导航二</span>
-          </el-menu-item>
-          <el-menu-item index="3" disabled>
-            <i class="el-icon-document"></i>
-            <span slot="title">导航三</span>
-          </el-menu-item>
-          <el-menu-item index="4">
-            <i class="el-icon-setting"></i>
-            <span slot="title">导航四</span>
-          </el-menu-item>
+          <el-submenu index="2">
+            <template slot="title">
+              <i class="el-icon-menu"></i>
+              <span slot="title">文章管理</span>
+            </template>
+            <el-menu-item index="postlist">
+              <template slot="title">
+                <i class="el-icon-location"></i>
+                <span>文章列表</span>
+              </template>
+            </el-menu-item>
+            <el-menu-item index="2-2">
+              <template slot="title">
+                <i class="el-icon-location"></i>
+                <span>文章发布</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
+          <el-submenu index="3">
+            <template slot="title">
+              <i class="el-icon-location"></i>
+              <span>栏目管理</span>
+            </template>
+            <el-menu-item index="3-1">
+              <template slot="title">
+                <i class="el-icon-setting"></i>
+                <span>栏目列表</span>
+              </template>
+            </el-menu-item>
+          </el-submenu>
         </el-menu>
       </el-aside>
       <el-container>
-        <el-header>Header</el-header>
-        <el-main>Main</el-main>
+        <el-header>
+          <span class="el-icon-s-fold toggle-btn"></span>
+          <span class="system-title">黑马头条后台管理系统</span>
+          <div class="welcomes">
+            <span class="user">
+              <img :src="user.head_img" alt />
+            </span>
+            <span>欢迎你：52期的小伙伴</span> &nbsp;&nbsp;
+            <span>退出</span>
+          </div>
+        </el-header>
+        <el-main>
+          <router-view></router-view>
+        </el-main>
       </el-container>
     </el-container>
   </div>
 </template>
 
 <script>
+import { user, baseURL } from '../myapi/user'
 export default {
+  data () {
+    return {
+      user: {}
+    }
+  },
+  async mounted () {
+    console.log(JSON.parse(localStorage.getItem('heima_back_user')).id)
+    const res = await user(JSON.parse(localStorage.getItem('heima_back_user')).id)
+    console.log(res)
+    res.data.data.head_img = baseURL + res.data.data.head_img
+    this.user = res.data.data
+    console.log(this.user)
+  },
   methods: {
     handleOpen (key, keyPath) {
       console.log(key, keyPath)
@@ -85,6 +124,7 @@ export default {
     background-color: #545c64;
   }
   .logo {
+    width: 100%;
     height: 60px;
     background: url(../assets/logo.png);
     background-size: cover;
@@ -105,8 +145,24 @@ export default {
     font-size: 28px;
     color: white;
   }
-  .welcome {
+  .welcomes {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
     color: white;
+
+    > span {
+      padding-left: 10px;
+      //   vertical-align: middle;
+    }
+    > .user {
+      img {
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+      }
+    }
   }
 }
 </style>

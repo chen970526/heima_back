@@ -17,7 +17,9 @@ import {
   Menu,
   Submenu,
   MenuItem,
-  MenuItemGroup
+  MenuItemGroup,
+  Row,
+  Col
 } from 'element-ui'
 
 // import ElementUI from 'element-ui';
@@ -25,7 +27,7 @@ import {
 
 import router from './rotuer/index.js'
 Vue.use(Button).use(Form).use(FormItem).use(Input).use(Container).use(Aside).use(Header).use(Main).use(Menu)
-  .use(Submenu).use(MenuItem).use(MenuItemGroup)
+  .use(Submenu).use(MenuItem).use(MenuItemGroup).use(Row).use(Col)
 
 Vue.prototype.$message = Message
 

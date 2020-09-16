@@ -10,7 +10,7 @@
           <el-input prefix-icon="icon-key" v-model="user.password" @focus="delmsg('password')"></el-input>
         </el-form-item>
       </el-form>
-      <el-button class="login-btn" type="primary" @click="userlogin">成功按钮</el-button>
+      <el-button class="login-btn" type="primary" @click="userlogin">登陆</el-button>
     </div>
   </div>
 </template>
@@ -39,17 +39,23 @@ export default {
     },
     userlogin () {
       //   console.log(this.$refs.ruleForm)
-      this.$refs.ruleForm.validate(async (valid) => {
-        console.log(valid)
+      this.$refs.ruleForm.validate(async (valid, obj) => {
+        // console.log(valid)
+        // console.log(obj)
         if (valid) {
           const res = await login(this.user)
           console.log(res)
           if (res.data.message === '登录成功') {
             localStorage.setItem('heima_back_token', res.data.data.token)
+            localStorage.setItem(
+              'heima_back_user',
+              JSON.stringify(res.data.data.user)
+            )
             this.$message.success({
               showClose: true,
               message: res.data.message
             })
+            this.$router.push({ path: '/' })
           }
         } else {
           this.$message.warning({

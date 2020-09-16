@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 
 import Index from '@/pages/index.vue'
 import Login from '@/pages/login.vue'
+import Welcome from '@/pages/children/welcome.vue'
+import Postlist from '@/pages/children/postlist.vue'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -14,11 +16,41 @@ const router = new VueRouter({
   }, {
     name: 'Index',
     path: '/index',
-    component: Index
+    component: Index,
+    redirect: {
+      name: 'Welcome'
+    },
+    children: [{
+      name: 'Welcome',
+      path: 'welcome',
+      component: Welcome
+    }, {
+      name: 'Postlist',
+      path: 'postlist',
+      component: Postlist
+    }]
   }, {
     name: 'Login',
     path: '/login',
     component: Login
   }]
+})
+// 全局前置守卫
+router.beforeEach((to, from, next) => {
+  if (to.path === '/login') {
+    next()
+  } else {
+    if (localStorage.getItem('heima_back_token')) {
+      next()
+    } else {
+      Vue.prototype.$message.error({
+        showClose: true,
+        message: '请先登录'
+      })
+      next({
+        path: '/login'
+      })
+    }
+  }
 })
 export default router
