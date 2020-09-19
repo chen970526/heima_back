@@ -5,6 +5,7 @@ import Index from '@/pages/index.vue'
 import Login from '@/pages/login.vue'
 import Welcome from '@/pages/children/welcome.vue'
 import Postlist from '@/pages/children/postlist.vue'
+import Articleissue from '@/pages/children/articleissue.vue'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
@@ -28,6 +29,10 @@ const router = new VueRouter({
       name: 'Postlist',
       path: 'postlist',
       component: Postlist
+    }, {
+      name: 'Articleissue',
+      path: 'articleissue',
+      component: Articleissue
     }]
   }, {
     name: 'Login',

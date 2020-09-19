@@ -35,7 +35,7 @@
                 <span>文章列表</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="2-2">
+            <el-menu-item index="articleissue">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>文章发布</span>
@@ -61,9 +61,6 @@
           <span class="el-icon-s-fold toggle-btn"></span>
           <span class="system-title">黑马头条后台管理系统</span>
           <div class="welcomes">
-            <span class="user">
-              <img :src="user.head_img" alt />
-            </span>
             <span>欢迎你：52期的小伙伴</span> &nbsp;&nbsp;
             <span>退出</span>
           </div>
@@ -85,12 +82,14 @@ export default {
     }
   },
   async mounted () {
-    console.log(JSON.parse(localStorage.getItem('heima_back_user')).id)
-    const res = await user(JSON.parse(localStorage.getItem('heima_back_user')).id)
-    console.log(res)
+    // console.log(JSON.parse(localStorage.getItem('heima_back_user')).id)
+    const res = await user(
+      JSON.parse(localStorage.getItem('heima_back_user')).id
+    )
+    // console.log(res)
     res.data.data.head_img = baseURL + res.data.data.head_img
     this.user = res.data.data
-    console.log(this.user)
+    // console.log(this.user)
   },
   methods: {
     handleOpen (key, keyPath) {
@@ -155,13 +154,6 @@ export default {
     > span {
       padding-left: 10px;
       //   vertical-align: middle;
-    }
-    > .user {
-      img {
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-      }
     }
   }
 }

@@ -17,3 +17,18 @@ export const user = function (id) {
     url: `/user/${id}`
   })
 }
+
+// 获取文章列表
+export const articleList = function (params) {
+  return myaxios({
+    url: '/post',
+    params
+  })
+}
+
+// 获取栏目列表
+export const categoryList = function () {
+  return myaxios({
+    url: '/category'
+  })
+}

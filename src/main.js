@@ -19,7 +19,20 @@ import {
   MenuItem,
   MenuItemGroup,
   Row,
-  Col
+  Col,
+  Breadcrumb,
+  BreadcrumbItem,
+  Card,
+  Table,
+  TableColumn,
+  Tooltip,
+  Pagination,
+  Radio,
+  RadioGroup,
+  Upload,
+  Checkbox,
+  CheckboxGroup,
+  Dialog
 } from 'element-ui'
 
 // import ElementUI from 'element-ui';
@@ -27,7 +40,7 @@ import {
 
 import router from './rotuer/index.js'
 Vue.use(Button).use(Form).use(FormItem).use(Input).use(Container).use(Aside).use(Header).use(Main).use(Menu)
-  .use(Submenu).use(MenuItem).use(MenuItemGroup).use(Row).use(Col)
+  .use(Submenu).use(MenuItem).use(MenuItemGroup).use(Row).use(Col).use(Breadcrumb).use(BreadcrumbItem).use(Card).use(Table).use(TableColumn).use(Tooltip).use(Pagination).use(Radio).use(RadioGroup).use(Upload).use(Checkbox).use(CheckboxGroup).use(Dialog)
 
 Vue.prototype.$message = Message
 

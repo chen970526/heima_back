@@ -13,7 +13,8 @@
     "core-js": "^3.6.5",
     "element-ui": "^2.13.2",
     "vue": "^2.6.11",
-    "vue-router": "^3.4.3"
+    "vue-router": "^3.4.3",
+    "vue-word-editor": "0.0.3"
   },
   "devDependencies": {
     "@babel/preset-env": "^7.11.5",

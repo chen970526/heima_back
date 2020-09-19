@@ -4,7 +4,7 @@ axios.defaults.baseURL = 'http://127.0.0.1:3333'
 // 添加请求拦截器
 axios.interceptors.request.use(function (config) {
   // 在发送请求之前做些什么
-  console.log(config)
+  // console.log(config)
   if (localStorage.getItem('heima_back_token')) {
     config.headers.Authorization = localStorage.getItem('heima_back_token')
   }
