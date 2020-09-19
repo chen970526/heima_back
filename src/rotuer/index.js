@@ -31,7 +31,7 @@ const router = new VueRouter({
       component: Postlist
     }, {
       name: 'Articleissue',
-      path: 'articleissue',
+      path: 'articleissue/:id?',
       component: Articleissue
     }]
   }, {

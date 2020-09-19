@@ -32,3 +32,27 @@ export const categoryList = function () {
     url: '/category'
   })
 }
+
+// 发布文章
+export const postarticle = function (data) {
+  return myaxios({
+    method: 'post',
+    url: '/post',
+    data
+  })
+}
+
+// 根据文章id 获取文章详情
+export const getarticle = function (id) {
+  return myaxios({
+    url: `/post/${id}`
+  })
+}
+// 根据文章id 编辑文章详情
+export const editarticle = function (id, data) {
+  return myaxios({
+    method: 'post',
+    url: `/post_update/${id}`,
+    data
+  })
+}

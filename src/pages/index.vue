@@ -4,7 +4,7 @@
       <el-aside width="200px">
         <img class="logo" alt @click="$router.push({path:'/'}).catch(()=>{})" />
         <el-menu
-          default-active="1-1"
+          :default-active="$route.path"
           class="el-menu-vertical-demo"
           background-color="#545c64"
           text-color="#fff"
@@ -17,7 +17,7 @@
               <i class="el-icon-location"></i>
               <span>用户管理</span>
             </template>
-            <el-menu-item index="welcome">
+            <el-menu-item index="/index/welcome">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>用户列表</span>
@@ -29,13 +29,13 @@
               <i class="el-icon-menu"></i>
               <span slot="title">文章管理</span>
             </template>
-            <el-menu-item index="postlist">
+            <el-menu-item index="/index/postlist">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>文章列表</span>
               </template>
             </el-menu-item>
-            <el-menu-item index="articleissue">
+            <el-menu-item index="/index/articleissue">
               <template slot="title">
                 <i class="el-icon-location"></i>
                 <span>文章发布</span>
@@ -82,6 +82,7 @@ export default {
     }
   },
   async mounted () {
+    // console.log(this.$route.path)
     // console.log(JSON.parse(localStorage.getItem('heima_back_user')).id)
     const res = await user(
       JSON.parse(localStorage.getItem('heima_back_user')).id

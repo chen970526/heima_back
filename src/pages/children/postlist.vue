@@ -83,6 +83,7 @@ export default {
     },
     handleEdit (index, row) {
       console.log(index, row)
+      this.$router.push({ path: `articleissue/${row.id}` })
     },
     handleDelete (index, row) {
       console.log(index, row)
