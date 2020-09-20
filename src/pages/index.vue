@@ -82,8 +82,6 @@ export default {
     }
   },
   async mounted () {
-    // console.log(this.$route.path)
-    // console.log(JSON.parse(localStorage.getItem('heima_back_user')).id)
     const res = await user(
       JSON.parse(localStorage.getItem('heima_back_user')).id
     )
@@ -100,6 +98,7 @@ export default {
       console.log(key, keyPath)
     }
   }
+
 }
 </script>
 

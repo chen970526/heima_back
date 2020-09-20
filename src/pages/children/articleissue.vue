@@ -25,7 +25,7 @@
             :action="baseURL+'/upload'"
             :on-success="postvideo"
             :headers="gettoken()"
-            :file-list="editvideo(form.content,form.title)"
+            :file-list="fileList"
           >
             <el-button size="small" type="primary">点击上传</el-button>
             <div slot="tip" class="el-upload__tip">只能上传视频</div>
@@ -42,7 +42,7 @@
             <el-checkbox v-for="city in cities" :label="city.id" :key="city.id">{{city.name}}</el-checkbox>
           </el-checkbox-group>
         </el-form-item>
-        <el-form-item label="图片">
+        <el-form-item label="封面">
           <el-upload
             :action="baseURL+'/upload'"
             list-type="picture-card"
@@ -50,6 +50,7 @@
             :on-remove="handleRemove"
             :headers="gettoken()"
             :on-success="postcover"
+            :file-list="coverList"
           >
             <i class="el-icon-plus"></i>
           </el-upload>
@@ -77,20 +78,11 @@ export default {
   async mounted () {
     const res = await categoryList()
     this.cities = res.data.data.splice(2)
-    // console.log(this.cities)
-
-    if (this.$route.params.id) {
-      console.log(this.$route.params.id)
-      const res = await getarticle(this.$route.params.id)
-      console.log(res)
-      this.form = res.data.data
-      this.form.categories = this.form.categories.map((v) => {
-        return v.id
-      })
-      this.form.cover = this.form.cover.map((v) => {
-        return { id: v.id, url: baseURL + v.url }
-      })
-      console.log(this.form)
+    this.init()
+  },
+  watch: {
+    $route () {
+      this.init()
     }
   },
   data () {
@@ -103,14 +95,10 @@ export default {
       checkedCities: [], // 默认选中项
       cities: [],
       video: '',
-      form: {
-        title: '',
-        content: '',
-        categories: [],
-        cover: [],
-        type: 1
-      },
+      form: { title: '', content: '', categories: [], cover: [], type: 1 },
       baseURL,
+      fileList: [],
+      coverList: [],
       config: {
         // 上传图片的配置
         uploadImage: {
@@ -143,11 +131,42 @@ export default {
     VueEditor
   },
   methods: {
-    editvideo (url, name) {
-      const newname = name
-      console.log(newname)
-      const arr = [{ name: newname, url }]
-      return arr
+    async init () {
+      if (this.$route.params.id) {
+        const res = await getarticle(this.$route.params.id)
+        this.form = res.data.data
+        this.form.categories = this.form.categories.map((v) => {
+          return v.id
+        })
+        this.form.cover = this.form.cover.map((v) => {
+          return { id: v.id, url: baseURL + v.url }
+        })
+        this.isIndeterminate = true
+        this.form.cover.forEach((v) => {
+          this.coverList.push({ id: v.id, url: v.url })
+        })
+        if (this.form.type === 1) {
+          this.$refs.textbox.editor.clipboard.dangerouslyPasteHTML(
+            0,
+            this.form.content
+          )
+        } else {
+          this.fileList.push({ url: this.form.content, name: this.form.title })
+        }
+        console.log(this.form)
+      } else {
+        this.form = {
+          title: '',
+          content: '',
+          categories: [],
+          cover: [],
+          type: 1
+        }
+        // this.coverList.length = 0
+        // console.log(this.coverList)
+        // this.$refs.textbox.editor.clipboard.dangerouslyPasteHTML(0, `<p> </p>`)
+        // console.dir(this.$refs.textbox.editor.clipboard.dangerouslyPasteHTML)
+      }
     },
     // 获取本地token
     gettoken () {
@@ -199,13 +218,11 @@ export default {
     postcover (response, file, fileList) {
       console.log(response, file, fileList)
       this.form.cover.push({ id: response.data.id })
-      console.log(this.form.cover)
     },
     handleRemove (file, fileList) {
-      console.log(file, fileList)
-      console.log(file.response.data.id)
+      console.log(file)
       this.form.cover = this.form.cover.filter((v, i) => {
-        if (v.id !== file.response.data.id) {
+        if (v.id !== file.id) {
           return v
         }
       })
